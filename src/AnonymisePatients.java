@@ -6,6 +6,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AnonymisePatients {
+	
+	// patterns to detect names, dates, and addresses
     private static final Pattern NAME_PATTERN = Pattern.compile("\\b(Mr|Mrs|Ms|Dr)\\.?\\s+[A-Z][a-z]*\\s*([A-Z][a-z]+)?\\b", Pattern.CASE_INSENSITIVE);
     private static final Pattern DATE_PATTERN = Pattern.compile("\\d{2}-\\d{2}-\\d{4}");
     private static final Pattern ADDRESS_PATTERN = Pattern.compile("\\d+\\s+[\\w\\s]+\\b(Street|Road|Lane|Avenue),?\\s+[\\w\\s]+,\\s+[A-Z]{2}", Pattern.CASE_INSENSITIVE);
@@ -13,7 +15,7 @@ public class AnonymisePatients {
     private static final HashMap<String, Integer> idCounters = new HashMap<>();
 
     public static void main(String[] args) {
-        String inputFilePath = "src/PatientNotes"; 
+        String inputFilePath = "src/PatientNotes"; // the source of the file
         try (BufferedReader reader = new BufferedReader(new FileReader(inputFilePath))) {
             HashMap<String, String> patientMapping = new HashMap<>();
 
@@ -58,7 +60,7 @@ public class AnonymisePatients {
 
     private static String generateAnonymizedId(String category) {
         int count = idCounters.getOrDefault(category, 1);
-        String id = category.equals("address") ? "1." + count : count + ".0"; // Example categorization
+        String id = category.equals("address") ? "1." + count : count + ".0"; // Example categorisation
         idCounters.put(category, count + 1);
         return id;
     }
